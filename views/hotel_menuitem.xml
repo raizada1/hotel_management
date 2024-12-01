@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_hotel_root"
+              name="Hotel Management"
+              web_icon="hotel_management,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- Sub Menus -->
+    <menuitem id="menu_hotel_operations"
+              name="Operations"
+              parent="menu_hotel_root"
+              sequence="10"/>
+
+    <menuitem id="menu_hotel_booking"
+              name="Bookings"
+              action="action_hotel_booking"
+              parent="menu_hotel_operations"
+              sequence="10"/>
+
+    <menuitem id="menu_hotel_room"
+              name="Rooms"
+              action="action_hotel_room"
+              parent="menu_hotel_operations"
+              sequence="20"/>
+
+    <menuitem id="menu_hotel_configuration"
+              name="Configuration"
+              parent="menu_hotel_root"
+              sequence="100"/>
+
+    <menuitem id="menu_hotel_room_type"
+              name="Room Types"
+              action="action_hotel_room_type"
+              parent="menu_hotel_configuration"
+              sequence="10"/>
+</odoo>

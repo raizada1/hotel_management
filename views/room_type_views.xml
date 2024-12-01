@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hotel_room_type_tree_view" model="ir.ui.view">
+        <field name="name">hotel.room.type.tree</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <tree string="Room Types">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="max_adults"/>
+                <field name="max_children"/>
+                <field name="base_price"/>
+                <field name="view_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hotel_room_type_form_view" model="ir.ui.view">
+        <field name="name">hotel.room.type.form</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <form string="Room Type">
+                <header>
+                    <button name="action_view_rooms" type="object" string="View Rooms" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Room Type"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" required="1"/>
+                            <field name="view_type"/>
+                        </group>
+                        <group>
+                            <field name="base_price" widget="monetary"/>
+                            <field name="room_size"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="max_adults"/>
+                            <field name="max_children"/>
+                        </group>
+                        <group>
+                            <field name="amenities" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_room_type_search_view" model="ir.ui.view">
+        <field name="name">hotel.room.type.search</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <search string="Room Types">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="view_type"/>
+                <filter string="City View" name="city_view" domain="[('view_type', '=', 'city')]"/>
+                <filter string="Ocean View" name="ocean_view" domain="[('view_type', '=', 'ocean')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="View Type" name="view_type_group" context="{'group_by': 'view_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hotel_room_type" model="ir.actions.act_window">
+        <field name="name">Room Types</field>
+        <field name="res_model">hotel.room.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first room type
+            </p>
+        </field>
+    </record>
+
+    <menuitem 
+        id="menu_hotel_room_type" 
+        name="Room Types" 
+        parent="hotel_management_configuration_menu"
+        action="action_hotel_room_type"
+        sequence="10"/>
+</odoo>

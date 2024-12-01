@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Booking Confirmation Email Template -->
+        <record id="email_template_booking_confirmation" model="mail.template">
+            <field name="name">Hotel Booking: Confirmation</field>
+            <field name="model_id" ref="model_hotel_booking"/>
+            <field name="subject">Booking Confirmation - {{ object.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear {{ object.partner_id.name }},<br/><br/>
+                        Your booking has been confirmed with the following details:<br/><br/>
+                        Booking Reference: <strong>{{ object.name }}</strong><br/>
+                        Check-in Date: <strong>{{ object.check_in_date }}</strong><br/>
+                        Check-out Date: <strong>{{ object.check_out_date }}</strong><br/>
+                        Room Type: <strong>{{ object.room_type_id.name }}</strong><br/>
+                        Room Number: <strong>{{ object.room_id.name }}</strong><br/>
+                        Total Amount: <strong>{{ format_amount(object.total_amount, object.currency_id) }}</strong><br/><br/>
+                        
+                        {% if object.special_requests %}
+                        Special Requests:<br/>
+                        {{ object.special_requests }}<br/><br/>
+                        {% endif %}
+                        
+                        Please note:<br/>
+                        - Check-in time: {{ '%02d:%02d' % (int(object.expected_check_in_time), (object.expected_check_in_time % 1) * 60) }}<br/>
+                        - Check-out time: {{ '%02d:%02d' % (int(object.expected_check_out_time), (object.expected_check_out_time % 1) * 60) }}<br/><br/>
+                        
+                        If you have any questions, please don't hesitate to contact us.<br/><br/>
+                        
+                        Best regards,<br/>
+                        {{ user.company_id.name }}
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+        </record>
+
+        <!-- Check-in Reminder Email Template -->
+        <record id="email_template_checkin_reminder" model="mail.template">
+            <field name="name">Hotel Booking: Check-in Reminder</field>
+            <field name="model_id" ref="model_hotel_booking"/>
+            <field name="subject">Check-in Reminder - {{ object.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear {{ object.partner_id.name }},<br/><br/>
+                        This is a reminder that your check-in is scheduled for tomorrow.<br/><br/>
+                        Booking Details:<br/>
+                        Reference: <strong>{{ object.name }}</strong><br/>
+                        Check-in Date: <strong>{{ object.check_in_date }}</strong><br/>
+                        Expected Check-in Time: <strong>{{ '%02d:%02d' % (int(object.expected_check_in_time), (object.expected_check_in_time % 1) * 60) }}</strong><br/><br/>
+                        
+                        Please ensure you have a valid ID for check-in.<br/><br/>
+                        
+                        We look forward to welcoming you!<br/><br/>
+                        
+                        Best regards,<br/>
+                        {{ user.company_id.name }}
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+        </record>
+    </data>
+</odoo>

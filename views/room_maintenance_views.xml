@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hotel_room_maintenance_tree_view" model="ir.ui.view">
+        <field name="name">hotel.room.maintenance.tree</field>
+        <field name="model">hotel.room.maintenance</field>
+        <field name="arch" type="xml">
+            <tree string="Room Maintenance" decoration-success="state == 'completed'" decoration-warning="state == 'in_progress'" decoration-danger="priority == 'urgent'">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="maintenance_type"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="technician_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hotel_room_maintenance_form_view" model="ir.ui.view">
+        <field name="name">hotel.room.maintenance.form</field>
+        <field name="model">hotel.room.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Room Maintenance">
+                <header>
+                    <button name="action_start_maintenance" 
+                            string="Start Maintenance" 
+                            type="object" 
+                            states="scheduled" 
+                            class="oe_highlight"/>
+                    <button name="action_complete_maintenance" 
+                            string="Complete Maintenance" 
+                            type="object" 
+                            states="in_progress" 
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="draft,scheduled,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="maintenance_type"/>
+                            <field name="priority"/>
+                            <field name="technician_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="completion_date"/>
+                            <field name="cost"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_room_maintenance_search_view" model="ir.ui.view">
+        <field name="name">hotel.room.maintenance.search</field>
+        <field name="model">hotel.room.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Maintenance Search">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="maintenance_type"/>
+                <field name="state"/>
+                <filter string="Urgent" domain="[('priority', '=', 'urgent')]"/>
+                <filter string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Room" context="{'group_by': 'room_id'}"/>
+                    <filter string="Maintenance Type" context="{'group_by': 'maintenance_type'}"/>
+                    <filter string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hotel_room_maintenance" model="ir.actions.act_window">
+        <field name="name">Room Maintenance</field>
+        <field name="res_model">hotel.room.maintenance</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="search_view_id" ref="hotel_room_maintenance_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Room Maintenance Requests
+            </p>
+            <p>
+                Track and manage room maintenance activities efficiently
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_hotel_room_maintenance" 
+              name="Room Maintenance" 
+              parent="hotel_management.hotel_root_menu"
+              action="action_hotel_room_maintenance"
+              sequence="50"/>
+</odoo>

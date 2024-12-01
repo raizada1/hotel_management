@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hotel_room_amenity_tree_view" model="ir.ui.view">
+        <field name="name">hotel.room.amenity.tree</field>
+        <field name="model">hotel.room.amenity</field>
+        <field name="arch" type="xml">
+            <tree string="Room Amenities">
+                <field name="name"/>
+                <field name="icon"/>
+                <field name="is_standard"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hotel_room_amenity_form_view" model="ir.ui.view">
+        <field name="name">hotel.room.amenity.form</field>
+        <field name="model">hotel.room.amenity</field>
+        <field name="arch" type="xml">
+            <form string="Room Amenity">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="icon"/>
+                        </group>
+                        <group>
+                            <field name="is_standard"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_room_amenity_search_view" model="ir.ui.view">
+        <field name="name">hotel.room.amenity.search</field>
+        <field name="model">hotel.room.amenity</field>
+        <field name="arch" type="xml">
+            <search string="Room Amenities">
+                <field name="name"/>
+                <field name="icon"/>
+                <filter string="Standard Amenities" name="standard_amenities" domain="[('is_standard', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hotel_room_amenity" model="ir.actions.act_window">
+        <field name="name">Room Amenities</field>
+        <field name="res_model">hotel.room.amenity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first room amenity
+            </p>
+        </field>
+    </record>
+
+    <menuitem 
+        id="menu_hotel_room_amenity" 
+        name="Room Amenities" 
+        parent="hotel_management_configuration_menu"
+        action="action_hotel_room_amenity"
+        sequence="20"/>
+</odoo>

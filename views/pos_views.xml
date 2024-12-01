@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- POS Order Tree View -->
+    <record id="hotel_pos_tree_view" model="ir.ui.view">
+        <field name="name">hotel.pos.tree</field>
+        <field name="model">hotel.pos</field>
+        <field name="arch" type="xml">
+            <tree string="POS Orders">
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="service_point"/>
+                <field name="total_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- POS Order Form View -->
+    <record id="hotel_pos_form_view" model="ir.ui.view">
+        <field name="name">hotel.pos.form</field>
+        <field name="model">hotel.pos</field>
+        <field name="arch" type="xml">
+            <form string="POS Order">
+                <header>
+                    <button name="action_confirm" string="Confirm Order" 
+                            states="draft" type="object" class="oe_highlight"/>
+                    <button name="action_pay" string="Process Payment" 
+                            states="confirmed" type="object" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel Order" 
+                            states="draft,confirmed" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="guest_id"/>
+                            <field name="service_point"/>
+                        </group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="payment_method"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="order_lines">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="total_amount"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- POS Order Action Window -->
+    <record id="action_hotel_pos_orders" model="ir.actions.act_window">
+        <field name="name">POS Orders</field>
+        <field name="res_model">hotel.pos</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem 
+        id="menu_hotel_pos_orders" 
+        name="POS Orders" 
+        parent="hotel_management_menu" 
+        action="action_hotel_pos_orders" 
+        sequence="50"/>
+</odoo>

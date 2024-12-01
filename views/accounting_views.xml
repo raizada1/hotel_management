@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hotel_accounting_tree_view" model="ir.ui.view">
+        <field name="name">hotel.accounting.tree</field>
+        <field name="model">hotel.accounting</field>
+        <field name="arch" type="xml">
+            <tree string="Accounting Transactions" 
+                  decoration-info="payment_status == 'pending'"
+                  decoration-danger="payment_status == 'overdue'"
+                  decoration-success="payment_status == 'paid'">
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="transaction_type"/>
+                <field name="total_amount" sum="Total Revenue"/>
+                <field name="payment_status"/>
+                <field name="revenue_category"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hotel_accounting_form_view" model="ir.ui.view">
+        <field name="name">hotel.accounting.form</field>
+        <field name="model">hotel.accounting</field>
+        <field name="arch" type="xml">
+            <form string="Accounting Transaction">
+                <header>
+                    <button name="action_generate_invoice" 
+                            type="object" 
+                            string="Generate Invoice" 
+                            class="oe_highlight"/>
+                    <field name="payment_status" widget="statusbar" 
+                           statusbar_visible="draft,pending,paid,overdue"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Transaction Details">
+                            <field name="guest_id"/>
+                            <field name="booking_id"/>
+                            <field name="transaction_type"/>
+                            <field name="revenue_category"/>
+                        </group>
+                        <group string="Financial Information">
+                            <field name="total_amount"/>
+                            <field name="tax_rate"/>
+                            <field name="tax_amount"/>
+                            <field name="net_amount"/>
+                            <field name="payment_method"/>
+                            <field name="payment_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Additional Details">
+                            <group>
+                                <field name="currency_id"/>
+                                <field name="create_date"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_accounting_search_view" model="ir.ui.view">
+        <field name="name">hotel.accounting.search</field>
+        <field name="model">hotel.accounting</field>
+        <field name="arch" type="xml">
+            <search string="Accounting Search">
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="transaction_type"/>
+                <field name="revenue_category"/>
+                <filter string="Pending Payments" 
+                        domain="[('payment_status', '=', 'pending')]"/>
+                <filter string="Overdue Payments" 
+                        domain="[('payment_status', '=', 'overdue')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Transaction Type" 
+                            context="{'group_by': 'transaction_type'}"/>
+                    <filter string="Revenue Category" 
+                            context="{'group_by': 'revenue_category'}"/>
+                    <filter string="Payment Status" 
+                            context="{'group_by': 'payment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hotel_accounting" model="ir.actions.act_window">
+        <field name="name">Hotel Accounting</field>
+        <field name="res_model">hotel.accounting</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="search_view_id" ref="hotel_accounting_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first accounting transaction
+            </p>
+            <p>
+                Track all financial transactions, generate invoices, 
+                and manage payment statuses efficiently
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_hotel_accounting" 
+              name="Accounting" 
+              parent="hotel_management.hotel_root_menu"
+              action="action_hotel_accounting"
+              sequence="70"/>
+</odoo>

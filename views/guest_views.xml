@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_guest_tree" model="ir.ui.view">
+        <field name="name">hotel.guest.tree</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <tree string="Guest Profiles">
+                <field name="full_name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="loyalty_tier"/>
+                <field name="total_stays"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_guest_form" model="ir.ui.view">
+        <field name="name">hotel.guest.form</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <form string="Guest Profile">
+                <header>
+                    <field name="loyalty_tier" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" placeholder="Guest Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="birthdate"/>
+                            <field name="gender"/>
+                            <field name="passport_number"/>
+                            <field name="national_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Preferences">
+                            <group>
+                                <field name="preferred_room_type"/>
+                                <field name="dietary_preferences"/>
+                                <field name="special_requests"/>
+                            </group>
+                        </page>
+                        <page string="Loyalty">
+                            <group>
+                                <field name="loyalty_member"/>
+                                <field name="loyalty_points"/>
+                                <field name="loyalty_tier"/>
+                            </group>
+                        </page>
+                        <page string="Communication">
+                            <group>
+                                <field name="newsletter_subscription"/>
+                                <field name="communication_channel"/>
+                                <field name="privacy_consent"/>
+                            </group>
+                        </page>
+                        <page string="Stay History">
+                            <field name="booking_ids"/>
+                            <group>
+                                <field name="total_stays"/>
+                                <field name="total_nights"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_guest_search" model="ir.ui.view">
+        <field name="name">hotel.guest.search</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <search string="Guest Search">
+                <field name="full_name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <filter name="loyalty_members" string="Loyalty Members" domain="[('loyalty_member', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Loyalty Tier" name="group_by_tier" context="{'group_by': 'loyalty_tier'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_guest_profiles" model="ir.actions.act_window">
+        <field name="name">Guest Profiles</field>
+        <field name="res_model">hotel.guest</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+    <menuitem 
+        id="menu_guest_profile" 
+        name="Guests" 
+        parent="hotel_management.main_hotel_menu" 
+        action="action_guest_profiles" 
+        sequence="20"/>
+</odoo>

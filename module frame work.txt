@@ -1,0 +1,109 @@
+# Odoo 18 Hotel Management Module Framework
+
+## Module Root Directory
+```
+hotel_management/
+│
+├── __manifest__.py                 # Module manifest file
+├── __init__.py                     # Module initialization
+│
+├── security/
+│   └── ir.model.access.csv         # Security access rights
+│
+├── data/
+│   ├── room_sequence.xml           # Sequence configurations
+│   └── initial_data.xml            # Initial setup data
+│
+├── models/
+│   ├── __init__.py                 # Models initialization
+│   ├── room.py                     # Room management models
+│   ├── room_type.py                # Room type definitions
+│   ├── room_amenity.py             # Room amenities
+│   ├── room_maintenance.py         # Room maintenance tracking
+│   ├── room_pricing.py             # Dynamic pricing models
+│   ├── booking.py                  # Booking management
+│   ├── guest.py                    # Guest profile management
+│   ├── pos.py                      # Point of Sale module
+│   ├── membership.py               # Membership management
+│   ├── accounting.py               # Accounting integrations
+│   └── analytics.py                # Advanced analytics
+│
+├── views/
+│   ├── room_views.xml              # Room management views
+│   ├── room_type_views.xml         # Room type views
+│   ├── room_amenity_views.xml      # Amenities views
+│   ├── room_maintenance_views.xml  # Maintenance views
+│   ├── room_pricing_views.xml      # Pricing rule views
+│   ├── booking_views.xml           # Booking management views
+│   ├── guest_views.xml             # Guest profile views
+│   ├── pos_views.xml               # POS views
+│   ├── membership_views.xml        # Membership views
+│   └── accounting_views.xml        # Accounting views
+│
+├── wizards/
+│   ├── __init__.py                 # Wizards initialization
+│   ├── booking_wizard.py           # Booking creation/modification wizard
+│   └── pricing_wizard.py           # Pricing rule wizard
+│
+├── reports/
+│   ├── __init__.py                 # Reports initialization
+│   ├── room_occupancy_report.xml   # Room occupancy report
+│   ├── booking_report.py           # Booking reports
+│   └── revenue_report.py           # Revenue analysis reports
+│
+├── controllers/
+│   ├── __init__.py                 # Controllers initialization
+│   ├── main.py                     # Main web controllers
+│   └── booking_controller.py       # Online booking controllers
+│
+├── static/
+│   ├── description/
+│   │   └── icon.png                # Module icon
+│   ├── src/
+│   │   ├── css/                    # Custom CSS
+│   │   ├── js/                     # Custom JavaScript
+│   │   └── xml/                    # Custom XML assets
+│
+├── tests/
+│   ├── __init__.py                 # Tests initialization
+│   ├── test_room.py                # Room management tests
+│   ├── test_booking.py             # Booking process tests
+│   └── test_pricing.py             # Pricing rule tests
+│
+└── demo/
+    ├── room_demo.xml               # Demo room data
+    ├── booking_demo.xml            # Demo booking data
+    └── pricing_demo.xml            # Demo pricing rules
+```
+
+## Key Module Components Breakdown
+
+### 1. Core Models
+- `room.py`: Manage room entities, status, and basic attributes
+- `room_type.py`: Define room type characteristics and categories
+- `room_amenity.py`: Track and manage room amenities
+- `room_maintenance.py`: Handle room maintenance scheduling and tracking
+
+### 2. Booking and Guest Management
+- `booking.py`: Manage reservation lifecycle
+- `guest.py`: Create and manage guest profiles
+- `booking_wizard.py`: Provide wizards for booking creation/modification
+- `booking_controller.py`: Handle online booking processes
+
+### 3. Pricing and Revenue
+- `room_pricing.py`: Implement dynamic pricing strategies
+- `pricing_wizard.py`: Create and manage pricing rules
+- `accounting.py`: Integration with Odoo accounting module
+
+### 4. Additional Modules
+- `pos.py`: Point of Sale integration
+- `membership.py`: Membership program management
+- `analytics.py`: Advanced data analysis and reporting
+
+### 5. Supporting Components
+- `security/ir.model.access.csv`: Define access rights
+- `data/`: Initial data and configurations
+- `views/`: User interface definitions
+- `reports/`: Custom reporting
+- `tests/`: Automated testing
+- `demo/`: Demonstration data

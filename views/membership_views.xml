@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Membership Tree View -->
+    <record id="hotel_membership_tree_view" model="ir.ui.view">
+        <field name="name">hotel.membership.tree</field>
+        <field name="model">hotel.membership</field>
+        <field name="arch" type="xml">
+            <tree string="Memberships">
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="tier"/>
+                <field name="points_balance"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Membership Form View -->
+    <record id="hotel_membership_form_view" model="ir.ui.view">
+        <field name="name">hotel.membership.form</field>
+        <field name="model">hotel.membership</field>
+        <field name="arch" type="xml">
+            <form string="Membership">
+                <header>
+                    <button name="renew_membership" string="Renew Membership" 
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible': [('status', '!=', 'expired')]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="guest_id"/>
+                            <field name="tier"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="enrollment_date"/>
+                            <field name="next_renewal_date"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Points">
+                            <group>
+                                <field name="points_balance"/>
+                                <field name="total_points_earned"/>
+                            </group>
+                            <field name="benefit_ids" widget="many2many_tags"/>
+                        </page>
+                        
+                        <page string="Family Members">
+                            <field name="family_members">
+                                <tree editable="bottom">
+                                    <field name="guest_id"/>
+                                    <field name="relationship"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Membership Benefits Tree View -->
+    <record id="hotel_membership_benefit_tree_view" model="ir.ui.view">
+        <field name="name">hotel.membership.benefit.tree</field>
+        <field name="model">hotel.membership.benefit</field>
+        <field name="arch" type="xml">
+            <tree string="Membership Benefits">
+                <field name="name"/>
+                <field name="tier"/>
+                <field name="point_cost"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Membership Actions -->
+    <record id="action_hotel_membership" model="ir.actions.act_window">
+        <field name="name">Memberships</field>
+        <field name="res_model">hotel.membership</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_hotel_membership_benefits" model="ir.actions.act_window">
+        <field name="name">Membership Benefits</field>
+        <field name="res_model">hotel.membership.benefit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem 
+        id="menu_hotel_membership" 
+        name="Membership" 
+        parent="hotel_management_menu" 
+        sequence="60"/>
+    
+    <menuitem 
+        id="menu_hotel_membership_memberships" 
+        name="Memberships" 
+        parent="menu_hotel_membership" 
+        action="action_hotel_membership"/>
+    
+    <menuitem 
+        id="menu_hotel_membership_benefits" 
+        name="Benefits" 
+        parent="menu_hotel_membership" 
+        action="action_hotel_membership_benefits"/>
+</odoo>
